@@ -20,26 +20,33 @@ public class ParkingLot {
         levels.add(level);
     }
 
-    public boolean parkVehicle(Vehicle vehicle) {
+    public ParkingTicket parkVehicle(Vehicle vehicle) {
         for(Level level : levels) {
             if(level.parkVehicle(vehicle)) {
                 System.out.println(vehicle.getType()+" is parked successfully");
-                return true;
+                return new ParkingTicket(vehicle);
             }
         }
         System.out.println(vehicle.getType()+" could not be parked");
-        return false;
+        return null;
     }
 
-    public boolean unparkVehicle(Vehicle vehicle) {
+    public boolean unparkVehicle(ParkingTicket parkingTicket) {
         for(Level level : levels) {
-            if(level.unparkVehicle(vehicle)) {
-                System.out.println(vehicle.getType() + " is unparked successfully");
+            if(level.unparkVehicle(parkingTicket.getVehicle())) {
+                handlePayment(parkingTicket);
+                System.out.println(parkingTicket.getVehicle().getType() + " is unparked successfully");
                 return true;
             }
         }
-        System.out.println(vehicle.getType() + " could not be unparked");
+        System.out.println(parkingTicket.getVehicle().getType() + " could not be unparked");
         return false;
+    }
+
+    private void handlePayment(ParkingTicket parkingTicket) {
+        parkingTicket.setExitDetails();
+
+        System.out.println("handling payment"+parkingTicket.getEntryTime()+" "+parkingTicket.getExitTime());
     }
 
     public void displayAvailability() {

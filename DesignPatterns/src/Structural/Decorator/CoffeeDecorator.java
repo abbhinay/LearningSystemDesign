@@ -1,7 +1,7 @@
 package Structural.Decorator;
 
 public class CoffeeDecorator implements Coffee{
-    protected Coffee decoratedCoffee;
+    private final Coffee decoratedCoffee;
 
     public CoffeeDecorator(Coffee coffee) {
         this.decoratedCoffee = coffee;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherStation implements Observable{
-    List<Observer> list;
+    private List<Observer> list;
 
-    double temperature;
+    private double temperature;
     public WeatherStation() {
         this.list = new ArrayList<>();
     }

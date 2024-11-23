@@ -1,5 +1,7 @@
-import vehicleType.Vehicle;
-import vehicleType.VehicleType;
+package ParkingLot;
+
+import ParkingLot.vehicleType.Vehicle;
+import ParkingLot.vehicleType.VehicleType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,7 @@ public class Level {
     }
 
     public void displayAvailability() {
-        System.out.println("Level " + floor + " Availability: ");
+        System.out.println("ParkingLot.Level " + floor + " Availability: ");
         for(ParkingSpot parkingSpot : parkingSpots) {
             System.out.println("Parking Spot " + parkingSpot.getSpotNumber() + " : " + (parkingSpot.isAvailable() ? "Available for " : "Occupied by ") + parkingSpot.getVehicleType());
         }

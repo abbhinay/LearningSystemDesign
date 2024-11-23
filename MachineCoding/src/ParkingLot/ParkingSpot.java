@@ -1,5 +1,7 @@
-import vehicleType.Vehicle;
-import vehicleType.VehicleType;
+package ParkingLot;
+
+import ParkingLot.vehicleType.Vehicle;
+import ParkingLot.vehicleType.VehicleType;
 
 public class ParkingSpot {
     private final int spotNumber;

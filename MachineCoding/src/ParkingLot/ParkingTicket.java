@@ -1,4 +1,6 @@
-import vehicleType.Vehicle;
+package ParkingLot;
+
+import ParkingLot.vehicleType.Vehicle;
 
 import java.util.Date;
 import java.util.UUID;

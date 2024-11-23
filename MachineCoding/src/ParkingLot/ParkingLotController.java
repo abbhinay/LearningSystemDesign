@@ -1,7 +1,8 @@
-import vehicleType.Car;
-import vehicleType.Motorcycle;
-import vehicleType.Truck;
-import vehicleType.Vehicle;
+package ParkingLot;
+
+import ParkingLot.vehicleType.Car;
+import ParkingLot.vehicleType.Motorcycle;
+import ParkingLot.vehicleType.Truck;
 
 import java.io.BufferedReader;
 import java.io.IOException;

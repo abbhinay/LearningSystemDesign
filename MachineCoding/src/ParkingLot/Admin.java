@@ -1,3 +1,5 @@
+package ParkingLot;
+
 public class Admin {
     ParkingLot parkingLot = ParkingLot.getInstance();
 

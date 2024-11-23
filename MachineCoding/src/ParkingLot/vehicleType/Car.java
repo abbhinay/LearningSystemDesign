@@ -1,4 +1,4 @@
-package vehicleType;
+package ParkingLot.vehicleType;
 
 public class Car implements Vehicle{
     String licensePlate;

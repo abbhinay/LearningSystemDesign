@@ -1,7 +1,15 @@
 package vehicleType;
 
-public class Truck extends Vehicle{
+public class Truck implements Vehicle{
+    String licensePlate;
+    VehicleType type;
     public Truck(String licensePlate) {
-        super(licensePlate, VehicleType.TRUCK);
+        this.licensePlate = licensePlate;
+        this.type = VehicleType.TRUCK;
+    }
+
+    @Override
+    public VehicleType getType() {
+        return type;
     }
 }

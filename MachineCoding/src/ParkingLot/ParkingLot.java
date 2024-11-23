@@ -1,5 +1,6 @@
 package ParkingLot;
 
+import ParkingLot.Payment.Payment;
 import ParkingLot.vehicleType.Vehicle;
 import ParkingLot.vehicleType.VehicleType;
 
@@ -34,6 +35,10 @@ public class ParkingLot {
         this.baseRate = rate;
     }
 
+    public void setPaymentMethod(ParkingTicket parkingTicket, Payment payment) {
+        parkingTicket.setPaymentMethod(payment);
+    }
+
     public synchronized ParkingTicket parkVehicle(Vehicle vehicle) {
         for(Level level : levels) {
             if(level.parkVehicle(vehicle)) {
@@ -48,8 +53,6 @@ public class ParkingLot {
     public synchronized boolean unparkVehicle(ParkingTicket parkingTicket) {
         for(Level level : levels) {
             if(level.unparkVehicle(parkingTicket.getVehicle())) {
-                handlePayment(parkingTicket);
-                parkingTicket.setStatus(false);
                 System.out.println(parkingTicket.getVehicle().getType() + " is unparked successfully");
                 return true;
             }
@@ -58,12 +61,14 @@ public class ParkingLot {
         return false;
     }
 
-    private synchronized void handlePayment(ParkingTicket parkingTicket) {
+    public synchronized void handlePayment(ParkingTicket parkingTicket) {
         parkingTicket.setExitDetails();
         long time = parkingTicket.getExitTime().getMinutes()-parkingTicket.getEntryTime().getMinutes();
         long amount = getPayingAmount(time, parkingTicket.getVehicle().getType());
         System.out.println("handling payment "+parkingTicket.getEntryTime()+" "+parkingTicket.getExitTime()+
                 "\nplease pay "+amount+"Rs");
+        parkingTicket.pay(amount);
+        parkingTicket.setStatus(false);
     }
 
     private long getPayingAmount(long time, VehicleType vehicleType) {

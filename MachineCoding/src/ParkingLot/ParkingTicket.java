@@ -1,5 +1,6 @@
 package ParkingLot;
 
+import ParkingLot.Payment.Payment;
 import ParkingLot.vehicleType.Vehicle;
 
 import java.util.Date;
@@ -11,12 +12,14 @@ public class ParkingTicket {
     private Date exitTime;
     private boolean isActive;
     private Vehicle vehicle;
+    private Payment paymentMethod;
     public ParkingTicket(Vehicle vehicle) {
         this.ticketNo = String.valueOf(UUID.randomUUID());
         this.entryTime = new Date();
         this.exitTime = null;
         this.isActive = true;
         this.vehicle = vehicle;
+        this.paymentMethod = null;
     }
 
     public Date getEntryTime() {
@@ -41,6 +44,14 @@ public class ParkingTicket {
 
     public void setExitDetails() {
         this.exitTime = new Date();
+    }
+
+    public void setPaymentMethod(Payment paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void pay(long amount) {
+        this.paymentMethod.pay(amount);
     }
 
 }

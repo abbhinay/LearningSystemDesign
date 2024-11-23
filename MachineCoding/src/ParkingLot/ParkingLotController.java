@@ -1,5 +1,8 @@
 package ParkingLot;
 
+import ParkingLot.Payment.CashPayment;
+import ParkingLot.Payment.CreditCardPayment;
+import ParkingLot.Payment.UpiPayment;
 import ParkingLot.vehicleType.Car;
 import ParkingLot.vehicleType.Motorcycle;
 import ParkingLot.vehicleType.Truck;
@@ -54,6 +57,30 @@ public class ParkingLotController {
                         continue;
                     }
                     parkingLot.unparkVehicle(map.get(arr[2]));
+                    while(true) {
+                        System.out.println("Please select payment methods : cash, upi, credit card");
+                        command = br.readLine();
+                        switch(command) {
+                            case "cash" :
+                                parkingLot.setPaymentMethod(map.get(arr[2]), new CashPayment());
+                                break;
+                            case "upi" :
+                                System.out.println("enter upi id");
+                                command = br.readLine();
+                                parkingLot.setPaymentMethod(map.get(arr[2]), new UpiPayment(command));
+                                break;
+                            case "credit card" :
+                                System.out.println("enter name card number cvv expiry date");
+                                String[] cardDetails = br.readLine().split(" ");
+                                if(cardDetails.length!=4) continue;
+                                parkingLot.setPaymentMethod(map.get(arr[2]), new CreditCardPayment(cardDetails[0], cardDetails[1], Integer.parseInt(cardDetails[2]), cardDetails[3]));
+                                break;
+                            default:
+                                continue;
+                        }
+                        break;
+                    }
+                    parkingLot.handlePayment(map.get(arr[2]));
                     map.remove(arr[2]);
                 }
             }

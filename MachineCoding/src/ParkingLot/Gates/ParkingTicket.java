@@ -1,4 +1,4 @@
-package ParkingLot;
+package ParkingLot.Gates;
 
 import ParkingLot.Payment.Payment;
 import ParkingLot.vehicleType.Vehicle;

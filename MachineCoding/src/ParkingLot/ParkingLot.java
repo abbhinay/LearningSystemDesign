@@ -1,19 +1,24 @@
 package ParkingLot;
 
-import ParkingLot.Payment.Payment;
+import ParkingLot.Gates.Entrance;
+import ParkingLot.Gates.Exit;
+import ParkingLot.Gates.ParkingTicket;
 import ParkingLot.vehicleType.Vehicle;
-import ParkingLot.vehicleType.VehicleType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ParkingLot {
     private static volatile ParkingLot instance;
     private final List<Level> levels;
-    private float baseRate;
+    private final HashMap<String, Entrance> entrances;
+    private final HashMap<String, Exit> exits;
 
     private ParkingLot() {
         this.levels = new ArrayList<>();
+        this.entrances = new HashMap<>();
+        this.exits = new HashMap<>();
     }
 
     public static ParkingLot getInstance() {
@@ -31,23 +36,39 @@ public class ParkingLot {
         levels.add(level);
     }
 
-    public void addParkingRate(float rate) {
-        this.baseRate = rate;
+    public void addEntrance(String name) {
+        this.entrances.put(name, new Entrance(name));
     }
 
-    public void setPaymentMethod(ParkingTicket parkingTicket, Payment payment) {
-        parkingTicket.setPaymentMethod(payment);
+    public void removeEntrance(String name) {
+        this.entrances.remove(name);
     }
 
-    public synchronized ParkingTicket parkVehicle(Vehicle vehicle) {
+    public Entrance getEntrance(String name) {
+        return this.entrances.get(name);
+    }
+
+    public void addExit(String name) {
+        this.exits.put(name, new Exit(name));
+    }
+
+    public void removeExit(String name) {
+        this.exits.remove(name);
+    }
+
+    public Exit getExit(String name) {
+        return this.exits.get(name);
+    }
+
+    public synchronized boolean parkVehicle(Vehicle vehicle) {
         for(Level level : levels) {
             if(level.parkVehicle(vehicle)) {
                 System.out.println(vehicle.getType()+" is parked successfully");
-                return new ParkingTicket(vehicle);
+                return true;
             }
         }
         System.out.println(vehicle.getType()+" could not be parked");
-        return null;
+        return false;
     }
 
     public synchronized boolean unparkVehicle(ParkingTicket parkingTicket) {
@@ -59,28 +80,6 @@ public class ParkingLot {
         }
         System.out.println(parkingTicket.getVehicle().getType() + " could not be unparked");
         return false;
-    }
-
-    public synchronized void handlePayment(ParkingTicket parkingTicket) {
-        parkingTicket.setExitDetails();
-        long time = parkingTicket.getExitTime().getMinutes()-parkingTicket.getEntryTime().getMinutes();
-        long amount = getPayingAmount(time, parkingTicket.getVehicle().getType());
-        System.out.println("handling payment "+parkingTicket.getEntryTime()+" "+parkingTicket.getExitTime()+
-                "\nplease pay "+amount+"Rs");
-        parkingTicket.pay(amount);
-        parkingTicket.setStatus(false);
-    }
-
-    private long getPayingAmount(long time, VehicleType vehicleType) {
-        switch(vehicleType) {
-            case CAR :
-                return (long)(1.5*time*baseRate);
-            case MOTORCYCLE:
-                return (long)(time*baseRate);
-            case TRUCK:
-                return (long)(2*time*baseRate);
-        }
-        return 0;
     }
 
     public void displayAvailability() {

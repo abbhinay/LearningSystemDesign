@@ -55,7 +55,10 @@ public class Board {
         this.board[row][col] = piece;
     }
     public boolean isValidMove(int row, int col, Piece piece) {
-        //TODO Implement the logic
+        if(piece==null || row<0 || col<0 || row>7 || col>7) return false;
+        if(!piece.canMove(row, col)) return false;
+        Piece dstPiece = board[row][col];
+        if(dstPiece!=null && dstPiece.getColor()==piece.getColor()) return false;
         return true;
     }
     public boolean isCheckMate(Color color) {
